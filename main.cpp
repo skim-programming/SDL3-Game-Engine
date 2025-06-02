@@ -1,6 +1,8 @@
 #include <SDL3/SDL.h>
 #include "window.h"
 
+// Example Code
+
 int main() {
     easyWindow window("test");
     SDL_Renderer* renderer = window.getRenderer();
