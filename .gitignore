@@ -1,0 +1,7 @@
+# .gitignore for C++/SDL
+build/
+*.exe
+*.o
+*.a
+*.so
+*.dll
