@@ -1,11 +1,16 @@
 #include <SDL3/SDL.h>
 #include "window.h"
+#include "windowAComplex.h"
+#include "render.h"
+#include <iostream>
 
 // Example Code
-
+/*
 int main() {
-    easyWindow window("test");
-    SDL_Renderer* renderer = window.getRenderer();
+    SDLWindow window("Test", 600, 600);
+    SDL_Window* sdlWindow = static_cast<SDL_Window*>(window.getNativeHandle());
+    SDLRenderer renderer(sdlWindow);
+    SDL_Renderer* sdlRenderer = static_cast<SDL_Renderer*>(renderer.getRenderer());
 
     bool running = true;
     while (running) {
@@ -16,18 +21,50 @@ int main() {
         }
 
         // Clear screen (black)
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
+        SDL_RenderClear(sdlRenderer);
 
         // Draw a red rectangle
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_SetRenderDrawColor(sdlRenderer, 255, 0, 0, 255);
         SDL_FRect rect = { 100, 100, 200, 150 };
-        SDL_RenderFillRect(renderer, &rect);
+        SDL_RenderFillRect(sdlRenderer, &rect);
 
         // Update screen
-        SDL_RenderPresent(renderer);
+        window.updScreen();
     }
+    SDL_DestroyRenderer(sdlRenderer);
+    SDL_DestroyWindow(sdlWindow);
+    SDL_Quit();
 
-    window.easyCleanup();
     return 0;
 }
+*/
+
+int main() {
+
+
+    int ww = NULL;
+    int wh = NULL;
+
+    Window window("Test", 600, 600);
+    window.windowSize(&ww, &wh);
+    std::cout << &ww;
+
+    SimpleVertex v1 = { ww/2, wh/2, 255, 0, 0, 1 };
+    SimpleVertex v2 = { ww/2+ww/4, wh/2+wh/4, 255, 0, 0, 1 };
+    SimpleVertex v3 = { ww/2+ww/4, ww/2, 255, 0, 0, 1 };
+    
+    bool running = true;
+    while (running) {
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_QUIT)
+                running = false;
+        }
+        window.clear();
+        window.drawTri(v1, v2, v3);
+        window.updScreen();
+    }
+    return 0;
+}
+

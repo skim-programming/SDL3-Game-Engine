@@ -6,6 +6,7 @@
 #include <string>
 #include <stdexcept>
 
+// Easy Window Initialization
 
 class easyWindow {
 private:
