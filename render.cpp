@@ -1,5 +1,6 @@
 #include "render.h"
 #include <SDL3/SDL.h>
+#include <cstdint>
 
 // Rendering functions
 // SDL_RenderClear()	Fill screen with draw color
@@ -34,7 +35,7 @@ struct Window::Impl {
 
 Window::Window(const std::string& title, int w, int h) : pImpl(std::make_unique<Impl>()){
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-	pImpl->window = SDL_CreateWindow(title.c_str(), w, h, SDL_WINDOW_OPENGL);
+	pImpl->window = SDL_CreateWindow(title.c_str(), w, h, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	pImpl->renderer = SDL_CreateRenderer(pImpl->window, NULL);	
 }
 
@@ -50,6 +51,21 @@ void Window::drawTri(SimpleVertex& sv1, SimpleVertex& sv2, SimpleVertex& sv3) {
 		3,
 		NULL,
 		0);
+}
+
+void Window::drawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+	SDL_SetRenderDrawColor(pImpl->renderer, r, g, b, a);
+	SDL_RenderLine(pImpl->renderer, x1, y1, x2, y2);
+}
+
+void Window::drawGrid(uint8_t r, uint8_t g, uint8_t b, uint8_t a, int lineDistance) {
+	int tw, th = NULL;
+	SDL_GetWindowSize(pImpl->window, &tw, &th);
+	SDL_SetRenderDrawColor(pImpl->renderer, r, g, b, a);
+	for (int i = 0; i < tw || i < th; i += lineDistance) {
+		SDL_RenderLine(pImpl->renderer, tw, i, 0, i);
+		SDL_RenderLine(pImpl->renderer, i, th, i, 0);
+	}
 }
 
 void Window::updScreen() {

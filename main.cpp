@@ -2,7 +2,6 @@
 #include "window.h"
 #include "windowAComplex.h"
 #include "render.h"
-#include <iostream>
 
 // Example Code
 /*
@@ -48,12 +47,13 @@ int main() {
 
     Window window("Test", 600, 600);
     window.windowSize(&ww, &wh);
-    std::cout << &ww;
 
     SimpleVertex v1 = { ww/2, wh/2, 255, 0, 0, 1 };
     SimpleVertex v2 = { ww/2+ww/4, wh/2+wh/4, 255, 0, 0, 1 };
     SimpleVertex v3 = { ww/2+ww/4, ww/2, 255, 0, 0, 1 };
     
+    window.clear();
+    // window.drawTri(v1, v2, v3);
     bool running = true;
     while (running) {
         SDL_Event event;
@@ -61,8 +61,8 @@ int main() {
             if (event.type == SDL_EVENT_QUIT)
                 running = false;
         }
-        window.clear();
-        window.drawTri(v1, v2, v3);
+        window.drawGrid(255, 255, 255, 255, 20);
+        window.drawLine(300, 300, 580, 460, 255, 255, 255, 255);
         window.updScreen();
     }
     return 0;
