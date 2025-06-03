@@ -3,7 +3,5 @@
 A simple game engine built with SDL3.
 
 ## Features
-- UNFINISHED
-
-
-NOTE TO SELF: Add Abstraction
+- Very simple window and renderer creation
+- Abstraction implemented to reduce complexity of program
